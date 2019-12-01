@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable enable
 
@@ -14,7 +15,7 @@ namespace NetStandard20.Utilities
         /// The first available fragment is retrieved.
         /// Returns <see langword="null"/> if nothing is found.
         /// If <paramref name="end"/> is not specified, the end is the end of the string.
-        /// Version: 1.0.0.0
+        /// <![CDATA[Version: 1.0.0.0]]>
         /// </summary>
         /// <param name="text"></param>
         /// <param name="start"></param>
@@ -44,6 +45,44 @@ namespace NetStandard20.Utilities
             }
 
             return text.Substring(index1, index2 - index1);
+        }
+
+        /// <summary>
+        /// Retrieves the strings between the starting fragment and the ending.
+        /// All available fragments are retrieved.
+        /// Returns empty <see cref="List{T}"/> if nothing is found.
+        /// <![CDATA[Version: 1.0.0.2]]>
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static List<string> ExtractAll(this string text, string start, string end)
+        {
+            text = text ?? throw new ArgumentNullException(nameof(text));
+            start = start ?? throw new ArgumentNullException(nameof(start));
+            end = end ?? throw new ArgumentNullException(nameof(end));
+
+            var values = new List<string>();
+
+            var index2 = -end.Length;
+            while (true)
+            {
+                var index1 = text.IndexOf(start, index2 + end.Length, StringComparison.Ordinal);
+                if (index1 < 0)
+                {
+                    return values;
+                }
+
+                index1 += start.Length;
+                index2 = text.IndexOf(end, index1 + start.Length, StringComparison.Ordinal);
+                if (index2 < 0)
+                {
+                    return values;
+                }
+
+                values.Add(text.Substring(index1, index2 - index1));
+            }
         }
     }
 }
