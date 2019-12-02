@@ -79,7 +79,7 @@ namespace NetStandard20.Utilities
                 }
 
                 index1 += start.Length;
-                index2 = text.IndexOf(end, index1 + start.Length, comparison ?? StringComparison.Ordinal);
+                index2 = text.IndexOf(end, index1, comparison ?? StringComparison.Ordinal);
                 if (index2 < 0)
                 {
                     return values;
