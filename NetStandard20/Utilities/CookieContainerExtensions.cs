@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Net;
 
+#nullable enable
+
 namespace NetStandard20.Utilities
 {
     public static class CookieContainerExtensions

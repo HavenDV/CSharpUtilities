@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web;
 
+#nullable enable
+
 namespace NetStandard20.Utilities
 {
     public static class HttpExtensions

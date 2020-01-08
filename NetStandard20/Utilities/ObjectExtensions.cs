@@ -1,5 +1,7 @@
 ﻿using System;
 
+#nullable enable
+
 namespace NetStandard20.Utilities
 {
     public static class ObjectExtensions
