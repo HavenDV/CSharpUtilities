@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace NetStandard20.Utilities
+namespace NetStandard20.Extensions
 {
     public static class ObjectExtensions
     {

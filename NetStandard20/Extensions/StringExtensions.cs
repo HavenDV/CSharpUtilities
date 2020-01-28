@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable enable
 
-namespace NetStandard20.Utilities
+namespace NetStandard20.Extensions
 {
     /// <summary>
     /// Extensions that work with <see langword="string"/>

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 #nullable enable
 
-namespace NetStandard20.Utilities
+namespace NetStandard20.Extensions
 {
     /// <summary>
     /// Extensions that work with <see cref="Task"/>
