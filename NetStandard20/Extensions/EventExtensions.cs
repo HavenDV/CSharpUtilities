@@ -34,6 +34,7 @@ namespace NetStandard20.Extensions
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
         /// <returns></returns>
         public static async Task<T> WaitEventAsync<T>(this object value, string eventName, CancellationToken cancellationToken = default)
         {
@@ -80,6 +81,7 @@ namespace NetStandard20.Extensions
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
         /// <returns></returns>
         public static async Task<T> WaitEventAsync<T>(this object value, Func<CancellationToken, Task> func, string eventName, CancellationToken cancellationToken = default)
         {
@@ -96,6 +98,7 @@ namespace NetStandard20.Extensions
 
         /// <summary>
         /// Asynchronously expects all <see langword="event"/>'s until they occur or until canceled <br/>
+        /// This method DOES NOT throw an exception after canceling with a CancellationToken, but returns control and current results instantly <br/>
         /// <![CDATA[Version: 1.0.0.1]]> <br/>
         /// <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
         /// </summary>
@@ -114,7 +117,19 @@ namespace NetStandard20.Extensions
             eventNames = eventNames ?? throw new ArgumentNullException(nameof(eventNames));
 
             var tasks = eventNames
-                .Select(name => value.WaitEventAsync<T>(name, cancellationToken))
+                .Select(async name =>
+                {
+                    try
+                    {
+                        return await value.WaitEventAsync<T>(name, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
+                        return default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+                    }
+                })
                 .ToList();
 
             try
@@ -129,11 +144,17 @@ namespace NetStandard20.Extensions
 
             return eventNames
                 .Zip(tasks, (name, task) => (name, task))
-                .ToDictionary(i => i.name, i => i.task.IsCompleted && !i.task.IsCanceled ? i.task.Result : default);
+                .ToDictionary(
+                    pair => pair.name,
+                    pair =>
+                        pair.task.IsCompleted && !pair.task.IsCanceled
+                            ? pair.task.Result
+                            : default);
         }
 
         /// <summary>
         /// Asynchronously expects any <see langword="event"/> until it occurs or until canceled <br/>
+        /// This method DOES NOT throw an exception after canceling with a CancellationToken, but returns control and current results instantly <br/>
         /// <![CDATA[Version: 1.0.0.1]]> <br/>
         /// <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
         /// </summary>
@@ -152,7 +173,19 @@ namespace NetStandard20.Extensions
             eventNames = eventNames ?? throw new ArgumentNullException(nameof(eventNames));
 
             var tasks = eventNames
-                .Select(name => value.WaitEventAsync<T>(name, cancellationToken))
+                .Select(async name =>
+                {
+                    try
+                    {
+                        return await value.WaitEventAsync<T>(name, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
+                        return default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+                    }
+                })
                 .ToList();
 
             try
@@ -167,7 +200,12 @@ namespace NetStandard20.Extensions
 
             return eventNames
                 .Zip(tasks, (name, task) => (name, task))
-                .ToDictionary(i => i.name, i => i.task.IsCompleted && !i.task.IsCanceled ? i.task.Result : default);
+                .ToDictionary(
+                    pair => pair.name, 
+                    pair => 
+                        pair.task.IsCompleted && !pair.task.IsCanceled
+                            ? pair.task.Result
+                            : default);
         }
     }
 }
