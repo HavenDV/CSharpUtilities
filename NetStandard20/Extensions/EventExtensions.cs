@@ -31,6 +31,7 @@ namespace NetStandard20.Extensions
         /// <param name="value"></param>
         /// <param name="eventName"></param>
         /// <param name="cancellationToken"></param>
+        /// <typeparam name="T">EventArgs type</typeparam>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -78,6 +79,7 @@ namespace NetStandard20.Extensions
         /// <param name="func"></param>
         /// <param name="eventName"></param>
         /// <param name="cancellationToken"></param>
+        /// <typeparam name="T">EventArgs type</typeparam>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -106,6 +108,7 @@ namespace NetStandard20.Extensions
         /// <param name="func"></param>
         /// <param name="cancellationToken"></param>
         /// <param name="eventNames"></param>
+        /// <typeparam name="T">Base type for all events</typeparam>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -162,6 +165,7 @@ namespace NetStandard20.Extensions
         /// <param name="func"></param>
         /// <param name="cancellationToken"></param>
         /// <param name="eventNames"></param>
+        /// <typeparam name="T">Base type for all events</typeparam>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -201,8 +205,8 @@ namespace NetStandard20.Extensions
             return eventNames
                 .Zip(tasks, (name, task) => (name, task))
                 .ToDictionary(
-                    pair => pair.name, 
-                    pair => 
+                    pair => pair.name,
+                    pair =>
                         pair.task.IsCompleted && !pair.task.IsCanceled
                             ? pair.task.Result
                             : default);
