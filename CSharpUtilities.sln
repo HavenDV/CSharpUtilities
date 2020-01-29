@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard20", "NetStandar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard21", "NetStandard21\NetStandard21.csproj", "{FBFA15F5-B2AA-440E-BBDD-6380791D8D82}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard20.Tests", "NetStandard20.Tests\NetStandard20.Tests.csproj", "{504BAEEB-2521-4794-91F2-89339BC3FE1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FBFA15F5-B2AA-440E-BBDD-6380791D8D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBFA15F5-B2AA-440E-BBDD-6380791D8D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBFA15F5-B2AA-440E-BBDD-6380791D8D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{504BAEEB-2521-4794-91F2-89339BC3FE1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504BAEEB-2521-4794-91F2-89339BC3FE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504BAEEB-2521-4794-91F2-89339BC3FE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504BAEEB-2521-4794-91F2-89339BC3FE1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
