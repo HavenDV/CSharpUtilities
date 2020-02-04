@@ -9,7 +9,7 @@ namespace NetStandard21.Utilities
     /// <summary>
     /// A class designed to run code using <see cref="Task"/> with <see cref="TaskCreationOptions.LongRunning"/> <br/>
     /// and supporting automatic cancellation after <see cref="DisposeAsync"/> <br/>
-    /// <![CDATA[Version: 1.0.0.5]]> <br/>
+    /// <![CDATA[Version: 1.0.0.6]]> <br/>
     /// </summary>
     internal class TaskWorker : IDisposable, IAsyncDisposable
     {
@@ -85,7 +85,13 @@ namespace NetStandard21.Utilities
 
             CancellationTokenSource.Cancel();
 
-            await Task.ConfigureAwait(false);
+            try
+            {
+                await Task.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+            }
 
             // Some system code can still use CancellationToken, so we wait
             await Task.Delay(TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
