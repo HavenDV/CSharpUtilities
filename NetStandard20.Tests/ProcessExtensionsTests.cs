@@ -24,7 +24,7 @@ namespace NetStandard20.Tests
                 throw new InvalidOperationException("Process is null");
             }
 
-            await process.WaitForExitAsync(source.Token);
+            await process.WaitForExitAsync(source.Token).ConfigureAwait(false);
         }
     }
 }

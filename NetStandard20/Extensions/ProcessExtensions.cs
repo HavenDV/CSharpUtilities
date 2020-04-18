@@ -34,7 +34,7 @@ namespace NetStandard20.Extensions
             using var registration = cancellationToken.Register(
                 () => completionSource.TrySetCanceled(cancellationToken));
 
-            return await completionSource.Task;
+            return await completionSource.Task.ConfigureAwait(false);
         }
     }
 }
