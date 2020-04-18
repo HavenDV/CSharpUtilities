@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 #pragma warning disable CS8603 // A default expression introduces a null value for a type parameter.
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
 
 namespace NetStandard20.Extensions
 {
@@ -213,3 +214,4 @@ namespace NetStandard20.Extensions
 }
 
 #pragma warning restore CS8603 // A default expression introduces a null value for a type parameter.
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
