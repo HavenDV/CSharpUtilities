@@ -23,10 +23,12 @@ namespace NetStandard20.Tests
         public async Task WaitEventAsyncTest()
         {
             using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var cancellationToken = cancellationTokenSource.Token;
+
             var testObject = new TestClass();
 
             {
-                var result = await testObject.WaitEventAsync<EventArgs>(async cancellationToken =>
+                var result = await testObject.WaitEventAsync<EventArgs>(async () =>
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken);
 
@@ -39,7 +41,7 @@ namespace NetStandard20.Tests
 
             {
                 const string eventName = nameof(testObject.ValueTypeEvent);
-                var result = await testObject.WaitEventAsync<int>(async cancellationToken =>
+                var result = await testObject.WaitEventAsync<int>(async () =>
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken);
 
@@ -55,9 +57,11 @@ namespace NetStandard20.Tests
         public async Task WaitAllEventsAsyncTest()
         {
             using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var cancellationToken = cancellationTokenSource.Token;
+
             var testObject = new TestClass();
 
-            var results = await testObject.WaitAllEventsAsync<EventArgs>(async cancellationToken =>
+            var results = await testObject.WaitAllEventsAsync<EventArgs>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken);
 
@@ -72,9 +76,11 @@ namespace NetStandard20.Tests
         public async Task WaitAnyEventAsyncTest()
         {
             using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var cancellationToken = cancellationTokenSource.Token;
+
             var testObject = new TestClass();
 
-            var results = await testObject.WaitAnyEventAsync<EventArgs>(async cancellationToken =>
+            var results = await testObject.WaitAnyEventAsync<EventArgs>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken);
 
