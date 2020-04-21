@@ -95,6 +95,8 @@ namespace NetStandard20.Tests
         public async Task ExceptionsTest()
         {
             using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var cancellationToken = cancellationTokenSource.Token;
+
             var testObject = new TestClass();
             var nullObject = (TestClass?)null;
 
@@ -102,20 +104,20 @@ namespace NetStandard20.Tests
             {
                 // ReSharper disable once ExpressionIsAlwaysNull
 #pragma warning disable CS8604 // Possible null reference argument.
-                await nullObject.WaitEventAsync<EventArgs>(nameof(TestClass.CommonEvent), cancellationTokenSource.Token);
+                await nullObject.WaitEventAsync<EventArgs>(nameof(TestClass.CommonEvent), cancellationToken);
 #pragma warning restore CS8604 // Possible null reference argument.
             });
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
             {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                await testObject.WaitEventAsync<EventArgs>(null, cancellationTokenSource.Token);
+                await testObject.WaitEventAsync<EventArgs>(null, cancellationToken);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             });
 
             await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
             {
-                await testObject.WaitEventAsync<EventArgs>("ThisEventNameIsNotExists", cancellationTokenSource.Token);
+                await testObject.WaitEventAsync<EventArgs>("ThisEventNameIsNotExists", cancellationToken);
             });
         }
     }
