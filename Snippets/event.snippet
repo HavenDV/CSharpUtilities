@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+        <Title>#event</Title>
+        <Shortcut>#event</Shortcut>
+        <Description>Code snippet for events</Description>
+        <Author>havendv</Author>
+        <SnippetTypes>
+            <SnippetType>Expansion</SnippetType>
+            <SnippetType>SurroundsWith</SnippetType>
+        </SnippetTypes>
+    </Header>
+    <Snippet>
+        <Declarations>
+            <Literal>
+                <ID>EventName</ID>
+                <Default>EventOccurred</Default>
+            </Literal>
+            <Literal>
+                <ID>EventType</ID>
+                <Default>string</Default>
+            </Literal>
+        </Declarations>
+        <Code Language="CSharp">
+		<![CDATA[public event EventHandler<$EventType$>? $EventName$;
+
+private void On$EventName$($EventType$ value)
+{
+   $EventName$?.Invoke(this, value);
+}]]>
+        </Code>
+        <Imports>
+          <Import>
+            <Namespace>System</Namespace>
+          </Import>
+        </Imports>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
