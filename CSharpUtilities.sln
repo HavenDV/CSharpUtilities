@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard20.Tests", "NetS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard21.Tests", "NetStandard21.Tests\NetStandard21.Tests.csproj", "{9CD8461F-27AB-4428-9963-E252D7C779BB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore31.Forms", "NetCore31.Forms\NetCore31.Forms.csproj", "{04069C8B-AD66-4FB5-81E6-491813E3664D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9CD8461F-27AB-4428-9963-E252D7C779BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CD8461F-27AB-4428-9963-E252D7C779BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CD8461F-27AB-4428-9963-E252D7C779BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04069C8B-AD66-4FB5-81E6-491813E3664D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04069C8B-AD66-4FB5-81E6-491813E3664D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04069C8B-AD66-4FB5-81E6-491813E3664D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04069C8B-AD66-4FB5-81E6-491813E3664D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
