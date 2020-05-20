@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 
+#nullable enable
+
 namespace NetCore31.Forms.Extensions
 {
     /// <summary>
     /// Extensions that allow you to access the UI stream, if necessary.
-    /// <![CDATA[Version: 1.0.0.0]]> <br/>
+    /// <![CDATA[Version: 1.0.0.1]]> <br/>
     /// </summary>
     public static class SynchronizeInvokeExtensions
     {
@@ -15,9 +17,11 @@ namespace NetCore31.Forms.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="action"></param>
-        public static void InvokeIfRequired<T>(this T obj, Action<T> action)
-            where T : ISynchronizeInvoke
+        public static void InvokeIfRequired<T>(this T? obj, Action<T> action)
+            where T : class, ISynchronizeInvoke
         {
+            obj = obj ?? throw new ArgumentNullException(nameof(obj));
+
             if (!obj.InvokeRequired)
             {
                 action(obj);
@@ -35,9 +39,11 @@ namespace NetCore31.Forms.Extensions
         /// <param name="obj"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static TOut InvokeIfRequired<TIn, TOut>(this TIn obj, Func<TIn, TOut> func)
-            where TIn : ISynchronizeInvoke
+        public static TOut InvokeIfRequired<TIn, TOut>(this TIn? obj, Func<TIn, TOut> func)
+            where TIn : class, ISynchronizeInvoke
         {
+            obj = obj ?? throw new ArgumentNullException(nameof(obj));
+
             return obj.InvokeRequired
                 ? (TOut)obj.Invoke(func, new object[] { obj })
                 : func(obj);
