@@ -9,7 +9,7 @@ namespace NetStandard21.Utilities
     /// <summary>
     /// A class designed to run code using <see cref="Task"/> with <see cref="TaskCreationOptions.LongRunning"/> <br/>
     /// and supporting automatic cancellation after <see cref="DisposeAsync"/> <br/>
-    /// <![CDATA[Version: 1.0.0.7]]> <br/>
+    /// <![CDATA[Version: 1.0.0.8]]> <br/>
     /// </summary>
     internal class TaskWorker : IDisposable, IAsyncDisposable
     {
@@ -20,6 +20,11 @@ namespace NetStandard21.Utilities
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Is Disposed
+        /// </summary>
+        public bool IsDisposed => _isDisposed;
 
         /// <summary>
         /// Internal task
@@ -112,7 +117,7 @@ namespace NetStandard21.Utilities
             {
                 throw new InvalidOperationException("The task worker is disposed");
             }
-            if (Task != Task.CompletedTask)
+            if (!Task.IsCompleted)
             {
                 throw new InvalidOperationException("The task worker already started");
             }
