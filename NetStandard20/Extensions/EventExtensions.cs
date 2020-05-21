@@ -17,7 +17,7 @@ namespace NetStandard20.Extensions
             public TaskCompletionSource<T>? Source { get; set; }
 
             // ReSharper disable once UnusedParameter.Local
-            public void HandleEvent(object sender, T e)
+            public void HandleEvent(object _, T e)
             {
                 Source?.TrySetResult(e);
             }
@@ -25,7 +25,6 @@ namespace NetStandard20.Extensions
 
         /// <summary>
         /// Asynchronously expects <see langword="event"/> until they occur or until canceled <br/>
-        /// <![CDATA[Version: 1.0.0.2]]> <br/>
         /// <![CDATA[Dependency: WaitObject]]> <br/>
         /// </summary>
         /// <param name="value"></param>
@@ -72,7 +71,6 @@ namespace NetStandard20.Extensions
 
         /// <summary>
         /// Asynchronously expects <see langword="event"/> until they occur or until canceled <br/>
-        /// <![CDATA[Version: 1.0.0.3]]> <br/>
         /// <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
         /// </summary>
         /// <param name="value"></param>
@@ -101,7 +99,6 @@ namespace NetStandard20.Extensions
         /// <summary>
         /// Asynchronously expects all <see langword="event"/>'s until they occur or until canceled <br/>
         /// This method DOES NOT throw an exception after canceling with a CancellationToken, but returns control and current results instantly <br/>
-        /// <![CDATA[Version: 1.0.0.3]]> <br/>
         /// <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
         /// </summary>
         /// <param name="value"></param>
@@ -156,7 +153,6 @@ namespace NetStandard20.Extensions
         /// <summary>
         /// Asynchronously expects any <see langword="event"/> until it occurs or until canceled <br/>
         /// This method DOES NOT throw an exception after canceling with a CancellationToken, but returns control and current results instantly <br/>
-        /// <![CDATA[Version: 1.0.0.3]]> <br/>
         /// <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
         /// </summary>
         /// <param name="value"></param>
