@@ -18,6 +18,8 @@ namespace NetStandard20.Extensions
         /// <param name="cancellationToken"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="OperationCanceledException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
         /// <returns></returns>
         public static async Task<int> WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
         {
