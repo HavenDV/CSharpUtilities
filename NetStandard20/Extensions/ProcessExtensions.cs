@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace NetStandard20.Extensions
 {
+    /// <summary>
+    /// Extensions that work with <see cref="Process"/> <br/>
+    /// <![CDATA[Version: 1.0.0.0]]> <br/>
+    /// </summary>
     public static class ProcessExtensions
     {
         /// <summary>
@@ -24,7 +28,14 @@ namespace NetStandard20.Extensions
 
             process.Exited += (sender, args) =>
             {
-                completionSource.TrySetResult(process.ExitCode);
+                try
+                {
+                    completionSource.TrySetResult(process.ExitCode);
+                }
+                catch (InvalidOperationException)
+                {
+                    completionSource.TrySetResult(0);
+                }
             };
             if (process.HasExited)
             {
