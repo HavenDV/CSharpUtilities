@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 #nullable enable
 
@@ -87,6 +88,24 @@ namespace NetStandard20.Extensions
 
                 values.Add(text.Substring(index1, index2 - index1));
             }
+        }
+
+        /// <summary>
+        /// Converts text to lines using <see cref="StringReader"/>.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static IList<string> ToLines(string text)
+        {
+            var lines = new List<string>();
+
+            using var reader = new StringReader(text);
+            for (string line; (line = reader.ReadLine()) != null;)
+            {
+                lines.Add(line);
+            }
+
+            return lines;
         }
     }
 }
