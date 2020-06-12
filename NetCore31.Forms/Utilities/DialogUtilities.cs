@@ -28,7 +28,6 @@ namespace NetCore31.Forms.Utilities
             return dialog.ShowDialog() == DialogResult.OK
                 ? dialog.FileName
                 : null;
-
         }
 
         /// <summary>
