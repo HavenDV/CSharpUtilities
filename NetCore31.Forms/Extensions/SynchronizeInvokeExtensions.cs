@@ -17,6 +17,7 @@ namespace NetCore31.Forms.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="action"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void InvokeIfRequired<T>(this T? obj, Action<T> action)
             where T : class, ISynchronizeInvoke
         {
@@ -38,6 +39,7 @@ namespace NetCore31.Forms.Extensions
         /// <typeparam name="TOut"></typeparam>
         /// <param name="obj"></param>
         /// <param name="func"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         public static TOut InvokeIfRequired<TIn, TOut>(this TIn? obj, Func<TIn, TOut> func)
             where TIn : class, ISynchronizeInvoke
