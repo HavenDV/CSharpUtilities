@@ -91,6 +91,50 @@ namespace NetStandard20.Extensions
         }
 
         /// <summary>
+        /// Replaces the strings between the starting fragment and the ending.
+        /// All available fragments will be replaced.
+        /// <para/>Default <paramref name="comparison"/> is <see cref="StringComparison.Ordinal"/>.
+        /// <![CDATA[Version: 1.0.0.0]]>
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="value"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
+        public static string ReplaceAll(this string text, string start, string end, string value, StringComparison? comparison = null)
+        {
+            text = text ?? throw new ArgumentNullException(nameof(text));
+            start = start ?? throw new ArgumentNullException(nameof(start));
+            end = end ?? throw new ArgumentNullException(nameof(end));
+
+            var index2 = -end.Length;
+            while (true)
+            {
+                var index1 = text.IndexOf(start, index2 + end.Length, comparison ?? StringComparison.Ordinal);
+                if (index1 < 0)
+                {
+                    return text;
+                }
+
+                index1 += start.Length;
+                index2 = text.IndexOf(end, index1, comparison ?? StringComparison.Ordinal);
+                if (index2 < 0)
+                {
+                    return text;
+                }
+
+                index1 -= start.Length;
+                index2 += end.Length;
+
+                text = text.Remove(index1, index2 - index1);
+                text = text.Insert(index1, value);
+
+                index2 = index1 + value.Length;
+            }
+        }
+
+        /// <summary>
         /// Converts text to lines using <see cref="StringReader"/>.
         /// </summary>
         /// <param name="text"></param>
@@ -100,7 +144,7 @@ namespace NetStandard20.Extensions
             var lines = new List<string>();
 
             using var reader = new StringReader(text);
-            for (string line; (line = reader.ReadLine()) != null;)
+            for (string? line; (line = reader.ReadLine()) != null;)
             {
                 lines.Add(line);
             }
