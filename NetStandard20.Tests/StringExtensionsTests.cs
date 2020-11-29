@@ -28,6 +28,17 @@ namespace NetStandard20.Tests
             Assert.AreEqual(expected, original.ReplaceAll(string.Empty, string.Empty, string.Empty));
         }
 #endif
+
+#if LICENCING
+        [TestMethod]
+        public void ReadGetRequestDataAsyncTest()
+        {
+            const string original = @"""";
+            const string expected = """";
+
+            Assert.AreEqual(expected, original.ReplaceAll(string.Empty, string.Empty, string.Empty));
+        }
+#endif
     }
 }
 ";
@@ -40,6 +51,8 @@ namespace NetStandard20.Tests
     [TestClass]
     public class StringExtensionsTests
     {
+
+
 
     }
 }

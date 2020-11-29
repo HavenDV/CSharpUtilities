@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 #nullable enable
 
@@ -55,20 +56,18 @@ namespace NetStandard20.Extensions
         /// All available fragments are retrieved.
         /// <para/>Returns empty <see cref="List{T}"/> if nothing is found.
         /// <para/>Default <paramref name="comparison"/> is <see cref="StringComparison.Ordinal"/>.
-        /// <![CDATA[Version: 1.0.0.3]]>
+        /// <![CDATA[Version: 1.0.0.1]]>
         /// </summary>
         /// <param name="text"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="comparison"></param>
         /// <returns></returns>
-        public static List<string> ExtractAll(this string text, string start, string end, StringComparison? comparison = null)
+        public static IEnumerable<(int Start, int Length)> ExtractAllFragments(this string text, string start, string end, StringComparison? comparison = null)
         {
             text = text ?? throw new ArgumentNullException(nameof(text));
             start = start ?? throw new ArgumentNullException(nameof(start));
             end = end ?? throw new ArgumentNullException(nameof(end));
-
-            var values = new List<string>();
 
             var index2 = -end.Length;
             while (true)
@@ -76,25 +75,50 @@ namespace NetStandard20.Extensions
                 var index1 = text.IndexOf(start, index2 + end.Length, comparison ?? StringComparison.Ordinal);
                 if (index1 < 0)
                 {
-                    return values;
+                    yield break;
                 }
 
                 index1 += start.Length;
                 index2 = text.IndexOf(end, index1, comparison ?? StringComparison.Ordinal);
                 if (index2 < 0)
                 {
-                    return values;
+                    yield break;
                 }
 
-                values.Add(text.Substring(index1, index2 - index1));
+                yield return (index1, index2 - index1);
             }
+        }
+
+        /// <summary>
+        /// Retrieves the strings between the starting fragment and the ending.
+        /// All available fragments are retrieved.
+        /// <para/>Returns empty <see cref="List{T}"/> if nothing is found.
+        /// <para/>Default <paramref name="comparison"/> is <see cref="StringComparison.Ordinal"/>.
+        /// <![CDATA[Version: 1.0.0.4]]>
+        /// <![CDATA[Dependency: ExtractAllFragments(this string text, string start, string end, StringComparison? comparison = null)]]> <br/>
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> ExtractAll(this string text, string start, string end, StringComparison? comparison = null)
+        {
+            text = text ?? throw new ArgumentNullException(nameof(text));
+            start = start ?? throw new ArgumentNullException(nameof(start));
+            end = end ?? throw new ArgumentNullException(nameof(end));
+
+            return text
+                .ExtractAllFragments(start, end, comparison)
+                .Select(index => text.Substring(index.Start, index.Length));
         }
 
         /// <summary>
         /// Replaces the strings between the starting fragment and the ending.
         /// All available fragments will be replaced.
         /// <para/>Default <paramref name="comparison"/> is <see cref="StringComparison.Ordinal"/>.
-        /// <![CDATA[Version: 1.0.0.0]]>
+        /// <![CDATA[Version: 1.0.0.1]]>
+        /// <![CDATA[Dependency: ExtractAllFragments(this string text, string start, string end, StringComparison? comparison = null)]]> <br/>
         /// </summary>
         /// <param name="text"></param>
         /// <param name="start"></param>
@@ -108,30 +132,19 @@ namespace NetStandard20.Extensions
             start = start ?? throw new ArgumentNullException(nameof(start));
             end = end ?? throw new ArgumentNullException(nameof(end));
 
-            var index2 = -end.Length;
-            while (true)
+            var fix = 0;
+            foreach (var fragment in text.ExtractAllFragments(start, end, comparison))
             {
-                var index1 = text.IndexOf(start, index2 + end.Length, comparison ?? StringComparison.Ordinal);
-                if (index1 < 0)
-                {
-                    return text;
-                }
+                var startIndex = fragment.Start + fix - start.Length;
+                var length = start.Length + fragment.Length + end.Length;
 
-                index1 += start.Length;
-                index2 = text.IndexOf(end, index1, comparison ?? StringComparison.Ordinal);
-                if (index2 < 0)
-                {
-                    return text;
-                }
+                text = text.Remove(startIndex, length);
+                text = text.Insert(startIndex, value);
 
-                index1 -= start.Length;
-                index2 += end.Length;
-
-                text = text.Remove(index1, index2 - index1);
-                text = text.Insert(index1, value);
-
-                index2 = index1 + value.Length;
+                fix += value.Length - length;
             }
+
+            return text;
         }
 
         /// <summary>
