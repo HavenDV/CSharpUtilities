@@ -12,7 +12,7 @@ namespace NetStandard20.Utilities
         /// <summary>
         /// Searches for a file among Embedded resources <br/>
         /// Throws an <see cref="ArgumentException"/> if nothing is found or more than one match is found <br/>
-        /// <![CDATA[Version: 1.0.0.3]]> <br/>
+        /// <![CDATA[Version: 1.0.0.4]]> <br/>
         /// </summary>
         /// <param name="name"></param>
         /// <param name="assembly"></param>
@@ -29,7 +29,7 @@ namespace NetStandard20.Utilities
                 return assembly.GetManifestResourceStream(
                            assembly
                                .GetManifestResourceNames()
-                               .Single(resourceName => resourceName.EndsWith(name)))
+                               .Single(resourceName => resourceName.EndsWith(name, StringComparison.InvariantCultureIgnoreCase)))
                        ?? throw new ArgumentException($"\"{name}\" is not found in embedded resources");
             }
             catch (InvalidOperationException exception)
