@@ -117,16 +117,17 @@ namespace NetStandard20.Extensions
         /// Replaces the strings between the starting fragment and the ending.
         /// All available fragments will be replaced.
         /// <para/>Default <paramref name="comparison"/> is <see cref="StringComparison.Ordinal"/>.
-        /// <![CDATA[Version: 1.0.0.1]]>
+        /// <![CDATA[Version: 1.0.0.2]]>
         /// <![CDATA[Dependency: ExtractAllFragments(this string text, string start, string end, StringComparison? comparison = null)]]> <br/>
         /// </summary>
         /// <param name="text"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="value"></param>
+        /// <param name="includeStartEnd"></param>
         /// <param name="comparison"></param>
         /// <returns></returns>
-        public static string ReplaceAll(this string text, string start, string end, string value, StringComparison? comparison = null)
+        public static string ReplaceAll(this string text, string start, string end, string value, bool includeStartEnd = true, StringComparison? comparison = null)
         {
             text = text ?? throw new ArgumentNullException(nameof(text));
             start = start ?? throw new ArgumentNullException(nameof(start));
@@ -135,8 +136,13 @@ namespace NetStandard20.Extensions
             var fix = 0;
             foreach (var fragment in text.ExtractAllFragments(start, end, comparison))
             {
-                var startIndex = fragment.Start + fix - start.Length;
-                var length = start.Length + fragment.Length + end.Length;
+                var startIndex = fragment.Start + fix;
+                var length = fragment.Length;
+                if (includeStartEnd)
+                {
+                    startIndex -= start.Length;
+                    length += start.Length + end.Length;
+                }
 
                 text = text.Remove(startIndex, length);
                 text = text.Insert(startIndex, value);
