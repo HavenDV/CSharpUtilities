@@ -84,5 +84,17 @@ namespace NetStandard20.Utilities
 
             return memoryStream.ToArray();
         }
+
+        /// <summary>
+        /// Returns all names
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static string[] GetResourcesNames(Assembly? assembly = null)
+        {
+            assembly ??= Assembly.GetExecutingAssembly();
+
+            return assembly.GetManifestResourceNames();
+        }
     }
 }
