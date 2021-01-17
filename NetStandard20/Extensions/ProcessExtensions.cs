@@ -28,7 +28,7 @@ namespace NetStandard20.Extensions
 
             var completionSource = new TaskCompletionSource<int>();
 
-            process.Exited += (sender, args) =>
+            process.Exited += (_, _) =>
             {
                 try
                 {
