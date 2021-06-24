@@ -11,6 +11,21 @@ namespace NetCore31.Wpf.Extensions
     public static class WindowExtensions
     {
         /// <summary>
+        /// Returns window dpi.
+        /// </summary>
+        /// <param name="window"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>Returns window dpi scale factory.</returns>
+        public static double GetDpi(this Window window)
+        {
+            window = window ?? throw new ArgumentNullException(nameof(window));
+
+            var source = PresentationSource.FromVisual(window);
+
+            return source?.CompositionTarget?.TransformFromDevice.M11 ?? 1.0;
+        }
+		
+        /// <summary>
         /// Moves the window to the center of the current screen, also considering dpi.
         /// </summary>
         /// <param name="window"></param>
