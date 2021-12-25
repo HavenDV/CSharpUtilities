@@ -1,15 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetStandard20.Extensions;
 
-namespace NetStandard20.Tests
+namespace NetStandard20.Tests;
+
+[TestClass]
+public class StringExtensionsTests
 {
-    [TestClass]
-    public class StringExtensionsTests
+    [TestMethod]
+    public void ReplaceAllTest1()
     {
-        [TestMethod]
-        public void ReplaceAllTest1()
-        {
-            const string original = @"using System;
+        const string original = @"using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetStandard20.Extensions;
 
@@ -42,7 +42,7 @@ namespace NetStandard20.Tests
     }
 }
 ";
-            const string expected = @"using System;
+        const string expected = @"using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetStandard20.Extensions;
 
@@ -58,13 +58,13 @@ namespace NetStandard20.Tests
 }
 ";
 
-            Assert.AreEqual(expected, original.ReplaceAll("#if LICENSING", "#endif", string.Empty));
-        }
+        Assert.AreEqual(expected, original.ReplaceAll("#if LICENSING", "#endif", string.Empty));
+    }
 
-        [TestMethod]
-        public void ReplaceAllTest2()
-        {
-            const string original = @"
+    [TestMethod]
+    public void ReplaceAllTest2()
+    {
+        const string original = @"
 #if LICENSING
             DaysLeftLabel = new Label
             {
@@ -101,19 +101,19 @@ namespace NetStandard20.Tests
             WelcomeBoardPanel.PerformLayout();
 #endif
 ";
-            const string expected = @"
+        const string expected = @"
 
 
 
 ";
 
-            Assert.AreEqual(expected, original.ReplaceAll("#if LICENSING", "#endif", string.Empty));
-        }
+        Assert.AreEqual(expected, original.ReplaceAll("#if LICENSING", "#endif", string.Empty));
+    }
 
-        [TestMethod]
-        public void ReplaceAllTest3()
-        {
-            const string original = @"
+    [TestMethod]
+    public void ReplaceAllTest3()
+    {
+        const string original = @"
 #if LICENSING
             DaysLeftLabel = new Label
             {
@@ -150,13 +150,12 @@ namespace NetStandard20.Tests
             WelcomeBoardPanel.PerformLayout();
 #endif
 ";
-            const string expected = @"
+        const string expected = @"
 #if LICENSING#endif
 #if LICENSING#endif
 #if LICENSING#endif
 ";
 
-            Assert.AreEqual(expected, original.ReplaceAll("#if LICENSING", "#endif", string.Empty, false));
-        }
+        Assert.AreEqual(expected, original.ReplaceAll("#if LICENSING", "#endif", string.Empty, false));
     }
 }

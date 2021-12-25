@@ -3,34 +3,33 @@ using System.Net;
 
 #nullable enable
 
-namespace NetStandard20.Utilities
+namespace NetStandard20.Utilities;
+
+public class TimeoutWebClient : WebClient
 {
-    public class TimeoutWebClient : WebClient
+    public TimeSpan Timeout { get; set; }
+
+    public TimeoutWebClient(TimeSpan timeout)
     {
-        public TimeSpan Timeout { get; set; }
+        Timeout = timeout;
+    }
 
-        public TimeoutWebClient(TimeSpan timeout)
+    protected override WebRequest? GetWebRequest(Uri uri)
+    {
+        var request = base.GetWebRequest(uri);
+        if (request == null)
         {
-            Timeout = timeout;
+            return null;
         }
 
-        protected override WebRequest? GetWebRequest(Uri uri)
+        var timeoutInMillisecond = (int)Timeout.TotalMilliseconds;
+
+        request.Timeout = timeoutInMillisecond;
+        if (request is HttpWebRequest httpWebRequest)
         {
-            var request = base.GetWebRequest(uri);
-            if (request == null)
-            {
-                return null;
-            }
-
-            var timeoutInMillisecond = (int)Timeout.TotalMilliseconds;
-
-            request.Timeout = timeoutInMillisecond;
-            if (request is HttpWebRequest httpWebRequest)
-            {
-                httpWebRequest.ReadWriteTimeout = timeoutInMillisecond;
-            }
-
-            return request;
+            httpWebRequest.ReadWriteTimeout = timeoutInMillisecond;
         }
+
+        return request;
     }
 }

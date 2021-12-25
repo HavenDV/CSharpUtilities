@@ -5,35 +5,34 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetStandard20.Extensions;
 
-namespace NetStandard20.Tests
+namespace NetStandard20.Tests;
+
+[TestClass]
+public class ProcessExtensionsTests
 {
-    [TestClass]
-    public class ProcessExtensionsTests
+    [TestMethod]
+    public async Task WaitTest()
     {
-        [TestMethod]
-        public async Task WaitTest()
+        using var source = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+
+        using var process = Process.Start(new ProcessStartInfo("timeout", "2")
         {
-            using var source = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            UseShellExecute = true,
+        });
+        if (process == null)
+        {
+            throw new InvalidOperationException("Process is null");
+        }
 
-            using var process = Process.Start(new ProcessStartInfo("timeout", "2")
-            {
-                UseShellExecute = true,
-            });
-            if (process == null)
-            {
-                throw new InvalidOperationException("Process is null");
-            }
+        try
+        {
+            await process.WaitForExitAsync(source.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            process.Kill();
 
-            try
-            {
-                await process.WaitForExitAsync(source.Token).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                process.Kill();
-
-                throw;
-            }
+            throw;
         }
     }
 }
